@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: whoami-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: whoami.dasuganda.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: whoami-service
+            port: 
+              number: 80
+    
+  tls:
+  - hosts:
+    - whoami.dasuganda.com
+    secretName: whoami-tls

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whoami-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: whoami
+  template:
+    metadata:
+      labels:
+        app: whoami
+    spec:
+      containers:
+      - name: whoami-container
+        image: containous/whoami
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name:  whoami-service
+spec:
+  selector:
+    app:  whoami
+  type:  ClusterIP
+  ports:
+  - name:  http
+    port:  80
+    targetPort:  80

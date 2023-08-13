@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sonar
+  namespace: sonar
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+spec:
+  rules:
+  - host: sonar.dasuganda.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: sonar
+            port: 
+              number: 9000
+  tls:
+  - hosts:
+    - sonar.dasuganda.com
+    secretName: sonar-tls
